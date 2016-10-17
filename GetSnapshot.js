@@ -1,18 +1,11 @@
 var system = require('system'),
-    args = system.args,
     page = require('webpage').create();
-    
-var X = 0,
-    Y = 0,
-    url = "";
 
-if (args.length < 4) {
-    console.log("Usage: 'friendsListVK.js sizeX sizeY url'");
-    phantom.exit();
-}
-X = args[1];
-Y = args[2];
-url = args[3];
+var X = 1920,
+    Y = 1080,
+    email = "tv@unfolio.ru",
+    password = "bNPHk9AQrEf4GUsY",
+    url = "https://www.yourappontv.com/my-apps/net-tv-apps";
 
 page.open(url, function(status) {
     if (status == "success") {
@@ -27,9 +20,19 @@ page.open(url, function(status) {
 page.onLoadFinished = function(status) {
     console.log("Got finished reply");
     if (status == 'success') {
+        console.log("HERE");
+
         console.log("Page was successfully opened!");
-    }
-    else {
+        //page.injectJs('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js');
+        page.evaluate(function() {
+            jQuery("#emailaddress").val("tv@infolio.ru");
+            document.getElementById('password').value = "bNPHk9AQrEf4GUsY";
+            //console.log(document.getElementById('password').value);
+            document.getElementById('btGo').click();
+        });
+        //page.injectJs('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js');
+        window.setTimeout(function() {page.render("page1.png");}, 500);
+    } else {
         console.log("Opening failed");
     }
     phantom.exit();
